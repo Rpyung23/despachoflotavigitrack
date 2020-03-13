@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="ancho_btn_pdf">46dp</dimen>
+    <dimen name="alto_btn_pdf">39dp</dimen>
+    <dimen name="alto_toolbar">60dp</dimen>
+    <dimen name="toolbar_alto_pdf">40dp</dimen>
+    <dimen name="dimen_texto_login">20dp</dimen>
+    <dimen name="text_size_card_salida">25dp</dimen>
+    <dimen name="text_size_card_salida_sub">15dp</dimen>
+    <dimen name="margen_Text_vueltas">5dp</dimen>
+</resources>

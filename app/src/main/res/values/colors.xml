@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2962ff</color>
+    <color name="colorPrimaryDark">#0039cb</color>
+    <color name="colorAccent">#9E9E9E</color>
+    <color name="divColor">#f57c00</color>
+    <color name="primaryText">@android:color/white</color>
+    <color name="secondText">#212121</color>
+    <color name="background_controles">#53292929</color>
+    <color name="background_cards_views">#D5F7D8</color>
+
+    <color name="vueltas_fializada">#0039cb</color>
+    <color name="vuelta_en_proceso">#00c853</color>
+    <color name="vuelta_pendiente">@android:color/white</color>
+</resources>
