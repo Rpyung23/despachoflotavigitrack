@@ -33,6 +33,13 @@
     <string name="progresdialog">Cargando Datos Espere</string>
     <string name="add_unidad">Nueva Unidad</string>
     <string name="generar_tarjeta">GENERAR TARJETA</string>
+    <string name="add_ruta">Asignar Ruta</string>
+    <string name="hora">HORA</string>
+    <string name="fecha">FECHA</string>
+    <string name="frecuencia">FRECUENCIA</string>
+    <string name="CANCELAR" />
+    <string name="cancela">CANCELAR</string>
+    <string name="Rutas">Rutas</string>
     <string-array name="Empresas">
         <item>Selecione su Empresa</item>
         <item>Cooperativa Salitre</item>

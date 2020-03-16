@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:targetSandboxVersion="1"
-    package="com.vigitrackecuador.despachoflotavigitrack">
+    package="com.vigitrackecuador.despachoflotavigitrack"
+    android:targetSandboxVersion="1">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
-<application
+    <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,9 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Views.LoginAdminActivity"
-            android:parentActivityName=".LoginActivity"
-            >
+        <activity android:name=".Views.TarjetasActivity"></activity>
+        <activity
+            android:name=".Views.LoginAdminActivity"
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />

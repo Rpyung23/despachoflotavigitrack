@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity
         admin = findViewById(R.id.btn_admin);
         NombresEmpresas.add("Seleccione una empresa");
         leerEmpresasFireBase();
-        ArrayAdapter<String> oEmpresas = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item,NombresEmpresas);
+        ArrayAdapter<String> oEmpresas = new ArrayAdapter<String>(LoginActivity.this, R.layout.support_simple_spinner_dropdown_item,NombresEmpresas);
         oEmpresas.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerEmpresas.setAdapter(oEmpresas);
         spinnerEmpresas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -128,6 +128,7 @@ public class LoginActivity extends AppCompatActivity
     {
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle("Vigitrack Cia.Ltd");
+        progressDialog.setIcon(R.drawable.icono_vigitrack);
         progressDialog.setMessage("Cargando Informacion");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);

@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/tab_rastreo_unidad"
+                    android:title="@string/gps"
+                    >
+                </item>
+                <item
+                    android:id="@+id/tab_nueva_unidad"
+                    android:title="@string/add_unidad"
+                    >
+                </item>
+            </group>
     <item
-        android:title="Unidad"
+        android:title="@string/Rutas"
         >
         <menu>
             <item
-                android:title="@string/gps"
-                >
-            </item>
-            <item
-                android:title="@string/add_unidad"
-                >
-            </item>
-        </menu>
-    </item>
-    <item
-        android:title="@string/Comando"
-        android:id="@+id/item_commandos"
-        >
-    </item>
-
-    <item
-        android:title="@string/Reloj"
-        android:id="@+id/item_envio_relojes"
-        >
-    </item>
-    <item
-        android:title="Configuracion"
-        >
-        <menu>
-            <item
-                android:title="@string/Avanza"
-                android:id="@+id/item_Avanzado"
+                android:id="@+id/tab_asig_ruta"
+                android:title="@string/add_ruta"
                 >
             </item>
         </menu>

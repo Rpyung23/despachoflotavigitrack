@@ -11,6 +11,7 @@
     <dimen name="toolbar_alto_pdf">40dp</dimen>
     <dimen name="dimen_texto_login">20dp</dimen>
     <dimen name="text_size_card_salida">25dp</dimen>
+    <dimen name="text_size_fecha">22dp</dimen>
     <dimen name="text_size_card_salida_sub">15dp</dimen>
     <dimen name="margen_Text_vueltas">5dp</dimen>
 </resources>

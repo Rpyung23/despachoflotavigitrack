@@ -115,10 +115,7 @@ tools:context=".Fragments.LlegadaFragment">
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.cardview.widget.CardView>
 <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recycleview_salidas"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"
+    android:id="@+id/recycleview_llegadas"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 </androidx.recyclerview.widget.RecyclerView>

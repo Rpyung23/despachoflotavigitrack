@@ -140,6 +140,7 @@ public class SalidaFragment extends Fragment {
     {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Vigitrack Cia.Ltda");
+        progressDialog.setIcon(R.drawable.icono_vigitrack);
         progressDialog.setMessage("Generando .... ");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setCancelable(false);

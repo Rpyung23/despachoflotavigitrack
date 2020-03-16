@@ -6,19 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:openDrawer="start"
-    android:fitsSystemWindows="true"
     android:id="@+id/drawer_layout"
     tools:context=".Views.MenuActivity">
-    <com.google.android.material.navigation.NavigationView
-        app:headerLayout="@layout/header_layout"
-        app:menu="@menu/menu_drawer"
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        >
-    </com.google.android.material.navigation.NavigationView>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -51,4 +40,13 @@
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        app:headerLayout="@layout/header_layout"
+        app:menu="@menu/menu_drawer"
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        >
+    </com.google.android.material.navigation.NavigationView>
 </androidx.drawerlayout.widget.DrawerLayout>
