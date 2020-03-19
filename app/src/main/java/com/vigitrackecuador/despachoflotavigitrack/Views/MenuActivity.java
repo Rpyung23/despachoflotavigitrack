@@ -17,6 +17,7 @@ import androidx.transition.FragmentTransitionSupport;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -39,6 +40,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.vigitrackecuador.despachoflotavigitrack.Fragments.LlegadaFragment;
 import com.vigitrackecuador.despachoflotavigitrack.Fragments.SalidaFragment;
+import com.vigitrackecuador.despachoflotavigitrack.Fragments.Unidadfragment;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cFrecuencia;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cIdBuses;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cRuta;
@@ -112,6 +114,9 @@ public class MenuActivity extends AppCompatActivity
                         break;
                     case R.id.item_flota:
                         Toast.makeText(MenuActivity.this, "Flota", Toast.LENGTH_SHORT).show();
+                        Unidadfragment oU = new Unidadfragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_contenedor,oU).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack(null).commit();
                         break;
                 }
                 return false;
@@ -132,6 +137,8 @@ public class MenuActivity extends AppCompatActivity
                         break;
                     case R.id.tab_rastreo_unidad:
                         Toast.makeText(MenuActivity.this, "Rastreo", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MenuActivity.this,RastreoActivity.class);
+                        startActivity(intent);
                         break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);

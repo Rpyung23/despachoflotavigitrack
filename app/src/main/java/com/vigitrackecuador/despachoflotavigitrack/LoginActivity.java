@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cDatosEmpresas;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cFrecuencia;
+import com.vigitrackecuador.despachoflotavigitrack.POO.cGeoCercas;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cIdBuses;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cRuta;
 import com.vigitrackecuador.despachoflotavigitrack.Views.LoginAdminActivity;
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity
     public  static  ArrayList<cIdBuses>oIdBuses;
     public  static ArrayList<cRuta>oRutas;
     public  static  ArrayList<cFrecuencia>oFrecuencia;
+    public  static ArrayList<cGeoCercas>oG;
     /* DAtos de la empresa */
     public  static String ip;
     public  static String name_base;
@@ -123,7 +126,6 @@ public class LoginActivity extends AppCompatActivity
             }
         });
     }
-
     private void CargarWebService()
     {
         progressDialog = new ProgressDialog(LoginActivity.this);
@@ -188,7 +190,20 @@ public class LoginActivity extends AppCompatActivity
                         oFF.setLetrFrec(jsonObjectF.getString("LetrFrec"));
                         oFrecuencia.add(oFF);
                     }
-
+                    oG = new ArrayList<cGeoCercas>();
+                    JSONArray jsonArray = response.getJSONArray("Control");
+                    for(int l=0;l<jsonArray.length();l++)
+                    {
+                        JSONObject jsonObjectCn = jsonArray.getJSONObject(l);
+                        cGeoCercas oGe = new cGeoCercas();
+                        oGe.setDescCtrl(jsonObjectCn.getString("DescCtrl"));
+                        oGe.setLati1Ctrl(jsonObjectCn.getDouble("Lati1Ctrl"));
+                        oGe.setLong1Ctrl(jsonObjectCn.getDouble("Long1Ctrl"));
+                        oGe.setLati2Ctrl(jsonObjectCn.getDouble("Lati2Ctrl"));
+                        oGe.setLong2Ctrl(jsonObjectCn.getDouble("Long2Ctrl"));
+                        oGe.setRadiCtrl(jsonObjectCn.getInt("RadiCtrl"));
+                        oG.add(oGe);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Toast.makeText(LoginActivity.this, "jsonEx : "+e.getMessage(), Toast.LENGTH_SHORT).show();

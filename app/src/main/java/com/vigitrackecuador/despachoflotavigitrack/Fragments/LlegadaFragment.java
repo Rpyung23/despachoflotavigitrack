@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.vigitrackecuador.despachoflotavigitrack.Adapter.cAdapterLlegadas;
 import com.vigitrackecuador.despachoflotavigitrack.Adapter.cAdapterSalidas;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cIdBuses;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cRuta;
@@ -176,7 +177,7 @@ public class LlegadaFragment extends Fragment
                     LinearLayoutManager olinear = new LinearLayoutManager(getContext());
                     olinear.setOrientation(LinearLayoutManager.VERTICAL);
                     recyclerView.setLayoutManager(olinear);
-                    cAdapterSalidas oAda = new cAdapterSalidas(getActivity(),R.layout.card_salidas,oLle);
+                    cAdapterLlegadas oAda = new cAdapterLlegadas(getActivity(),R.layout.card_llegadas,oLle,getContext());
                     recyclerView.setAdapter(oAda);
                 }else
                     {

@@ -1,7 +1,8 @@
 package com.vigitrackecuador.despachoflotavigitrack.Adapter;
 
 import android.app.Activity;
-import android.renderscript.Sampler;
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,28 +10,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vigitrackecuador.despachoflotavigitrack.Interface.longClickSalidas;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cVueltas;
 import com.vigitrackecuador.despachoflotavigitrack.R;
+import com.vigitrackecuador.despachoflotavigitrack.Views.MenuActivity;
+import com.vigitrackecuador.despachoflotavigitrack.Views.TarjetasActivity;
 
 import java.util.ArrayList;
 
-public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewHolderSalidas>
+public class cAdapterLlegadas extends RecyclerView.Adapter<cAdapterLlegadas.cViewHolderSalidas>
 {
     private Activity activity;
     private int resource;
     private ArrayList<cVueltas>oVueltas;
-    public cAdapterSalidas(Activity activity, int resource, ArrayList<cVueltas> oVueltas)
+    private Context context;
+    public cAdapterLlegadas(Activity activity, int resource, ArrayList<cVueltas> oVueltas, Context context1)
     {
         this.activity = activity;
         this.resource = resource;
         this.oVueltas = oVueltas;
+        context=context1;
     }
 
     @NonNull
@@ -44,7 +48,9 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
     @Override
     public void onBindViewHolder(@NonNull cViewHolderSalidas holder, int position)
     {
-        cVueltas oO= oVueltas.get(position);
+        cVueltas oO = new cVueltas();
+         oO= oVueltas.get(position);
+         final long auxId = oO.getId_ruta();
         if (oO.getEstaSali_m()==0)
         {
             //holder.cardView.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_pendiente));
@@ -56,7 +62,7 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
             }
         String unidad =" [ "+oO.getId_bus()+" ] ";
         String id_ruta =" # "+oO.getId_ruta();
-        final long auxIdRuta = oO.getId_ruta();
+
         holder.textViewUnidadSalida.setText(unidad);
         holder.textViewCodeSalida.setText(id_ruta);
         String Salida="Salida : "+oO.getDate_salida().toString();
@@ -67,11 +73,13 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
         holder.textViewHoraLSalida.setText(Llegada);
         String num_vuelta =" Vuelta # "+oO.getNum_vuelta();
         holder.textViewVueltaSalida.setText(num_vuelta);
-        holder.setItemLongClickListener(new longClickSalidas() {
+        holder.buttontarjeta.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemLongClick(View v, int pos)
+            public void onClick(View v)
             {
-                Toast.makeText(activity, "idRuta : "+auxIdRuta, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, TarjetasActivity.class);
+                intent.putExtra("idruta",auxId );
+                context.startActivity(intent);
             }
         });
     }
@@ -80,7 +88,8 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
     public int getItemCount() {
         return oVueltas.size();
     }
-    class cViewHolderSalidas extends RecyclerView.ViewHolder implements View.OnLongClickListener
+
+    class cViewHolderSalidas extends RecyclerView.ViewHolder
     {
         CardView cardView;
         LinearLayout linearLayout_card;
@@ -91,29 +100,20 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
         TextView textViewHoraLSalida;
         TextView textViewVueltaSalida;
         ImageView imageViewSalida;
-        longClickSalidas itemLongClickListener;
+        Button buttontarjeta;
         public cViewHolderSalidas(@NonNull View itemView)
         {
             super(itemView);
-            textViewUnidadSalida=itemView.findViewById(R.id.txt_unidad_salida);
-            textViewCodeSalida=itemView.findViewById(R.id.txt_code_salida);
-            textViewRutaSalida=itemView.findViewById(R.id.txt_ruta_salida);
-            textViewHoraPSalida=itemView.findViewById(R.id.txt_horaP_salida_);
-            textViewHoraLSalida=itemView.findViewById(R.id.txt_horaL_salida);
-            textViewVueltaSalida=itemView.findViewById(R.id.txt_vuelta_salida);
-            imageViewSalida=itemView.findViewById(R.id.imagen_salida);
-            cardView=itemView.findViewById(R.id.cardview_salida);
-            linearLayout_card=itemView.findViewById(R.id.linear_card);
-            itemView.setOnLongClickListener(this);
-        }
-        public void setItemLongClickListener(longClickSalidas ic)
-        {
-            this.itemLongClickListener=ic;
-        }
-        @Override
-        public boolean onLongClick(View v) {
-            this.itemLongClickListener.onItemLongClick(v,getLayoutPosition());
-            return false;
+            textViewUnidadSalida=itemView.findViewById(R.id.txt_unidad_llegadas);
+            textViewCodeSalida=itemView.findViewById(R.id.txt_code_llegadas);
+            textViewRutaSalida=itemView.findViewById(R.id.txt_ruta_llegadas);
+            textViewHoraPSalida=itemView.findViewById(R.id.txt_horaP_llegadas_);
+            textViewHoraLSalida=itemView.findViewById(R.id.txt_horaL_llegadas);
+            textViewVueltaSalida=itemView.findViewById(R.id.txt_vuelta_llegadas);
+            imageViewSalida=itemView.findViewById(R.id.imagen_llegadas);
+            cardView=itemView.findViewById(R.id.cardview_llegadas);
+            linearLayout_card=itemView.findViewById(R.id.linear_llegadas);
+            buttontarjeta=itemView.findViewById(R.id.btn_tarjeta_llegadas);
         }
     }
 }
