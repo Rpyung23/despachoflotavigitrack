@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/opc_tarjeta"
+        android:title="Generar Tarjeta"
+        >
+    </item>
+    <item
+        android:id="@+id/opc_anular_tarjeta"
+        android:title="Anular Tarjeta"
+        >
+    </item>
+    <item
+        android:id="@+id/opc_finalizar_tarjeta"
+        android:title="Finalizar Tarjeta"
+        >
+    </item>
+</menu>

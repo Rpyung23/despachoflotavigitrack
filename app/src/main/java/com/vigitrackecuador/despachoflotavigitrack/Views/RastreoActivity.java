@@ -56,11 +56,15 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
     String ValSpinnerU="*";
     GoogleMap googleMapR;
     float v1 = (float) 0.5;
+    private Handler handler = new Handler();
+    boolean ban=false;
     float v2 = (float) 0.5;
+    boolean bancontroles=false;
     ArrayList<cRastreo> ArrasyRastreo;
     Toolbar toolbar;
     JsonArrayRequest jsonArrayRequest;
     RequestQueue requestQueue;
+    Thread thread = new Thread();
     MapView mapViewR;
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,17 +91,19 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
                 ValSpinnerU=parent.getItemAtPosition(position).toString();
-                cargarControles();
+                if(bancontroles!=true){cargarControles();bancontroles=true;}
                 if (ValSpinnerU.equals("*"))
                 {
+                    ban=true;
                     Toast.makeText(RastreoActivity.this, "Rastreando todas las unidades", Toast.LENGTH_SHORT).show();
-                    boolean ban=true;
-                    /**Llaamar el JsonREquest**/
                     LlenarPosiciones(ValSpinnerU,ban);
+                    handler.postDelayed(mPosiciones, 9000);
                 }else
                     {
+                        ban=false;
                         Toast.makeText(RastreoActivity.this, "Rastreando  "+ValSpinnerU, Toast.LENGTH_SHORT).show();
-                        LlenarPosiciones(ValSpinnerU,false);
+                        LlenarPosiciones(ValSpinnerU,ban);
+                        handler.postDelayed(mPosiciones, 9000);
                     }
             }
             @Override
@@ -109,6 +115,8 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
 
     private void LlenarPosiciones(String valSpinnerU, boolean ban)
     {
+        googleMapR.clear();
+        cargarControles();
         String url="";
         String vectE="";
         if(oArrayMarker!=null)
@@ -177,7 +185,6 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
         requestQueue = Volley.newRequestQueue(RastreoActivity.this);
         requestQueue.add(jsonArrayRequest);
     }
-
     public void LlenarMArkersOptions()
     {
         oArrayMarkerOptions=new ArrayList<MarkerOptions>();
@@ -250,8 +257,31 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
                 Toast.makeText(this, "Sin Controles", Toast.LENGTH_SHORT).show();
             }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        stopRepeating();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+    private Runnable mPosiciones = new Runnable() {
+        @Override
+        public void run() {
+            LlenarPosiciones(ValSpinnerU,ban);
+            handler.postDelayed(this, 9000);
+        }
+    };
+    public void stopRepeating()
+    {
+        handler.removeCallbacks(mPosiciones);
     }
 }

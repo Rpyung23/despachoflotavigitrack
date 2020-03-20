@@ -2,6 +2,7 @@ package com.vigitrackecuador.despachoflotavigitrack.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.DatePicker;
+import android.widget.PopupMenu;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,8 @@ import com.vigitrackecuador.despachoflotavigitrack.POO.cIdBuses;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cRuta;
 import com.vigitrackecuador.despachoflotavigitrack.POO.cVueltas;
 import com.vigitrackecuador.despachoflotavigitrack.R;
+import com.vigitrackecuador.despachoflotavigitrack.Views.MenuActivity;
+import com.vigitrackecuador.despachoflotavigitrack.Views.TarjetasActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -180,6 +186,44 @@ public class SalidaFragment extends Fragment {
                     oL.setOrientation(RecyclerView.VERTICAL);
                     recyclerView.setLayoutManager(oL);
                     oAda = new cAdapterSalidas(getActivity(),R.layout.card_salidas,oVV);
+                    oAda.setLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v)
+                        {
+                            final long auxId=oVV.get(recyclerView.getChildAdapterPosition(v)).getId_ruta();
+                            final String unidad=oVV.get(recyclerView.getChildAdapterPosition(v)).getId_bus();
+                            final String salida=oVV.get(recyclerView.getChildAdapterPosition(v)).getDate_salida();
+                            final String ruta=oVV.get(recyclerView.getChildAdapterPosition(v)).getLetra_ruta();
+                            PopupMenu popup = new PopupMenu(getContext(), v);
+                            MenuInflater inflater = popup.getMenuInflater();
+                            inflater.inflate(R.menu.menu_popup, popup.getMenu());
+                            popup.show();
+                            // This activity implements OnMenuItemClickListener
+                            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                @Override
+                                public boolean onMenuItemClick(MenuItem item)
+                                {
+                                    switch (item.getItemId())
+                                    {
+                                        case R.id.opc_tarjeta:
+                                            Intent intent = new Intent(getActivity(), TarjetasActivity.class);
+                                            intent.putExtra("idruta",auxId );
+                                            intent.putExtra("unidad",unidad);
+                                            intent.putExtra("salida",salida);
+                                            intent.putExtra("ruta",ruta);
+                                            getActivity().startActivity(intent);
+                                            break;
+                                        case R.id.opc_anular_tarjeta:
+                                            break;
+                                        case R.id.opc_finalizar_tarjeta:
+                                            break;
+                                    }
+                                    return true;
+                                }
+                            });
+                            return true;
+                        }
+                    });
                     recyclerView.setAdapter(oAda);
                 }else
                     {
@@ -191,12 +235,12 @@ public class SalidaFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error)
             {
+                Toast.makeText(getContext(), "Sin Rutas", Toast.LENGTH_SHORT).show();
                 LinearLayoutManager oL = new LinearLayoutManager(getContext());
                 oL.setOrientation(RecyclerView.VERTICAL);
                 recyclerView.setLayoutManager(oL);
                 oAda = new cAdapterSalidas(getActivity(),R.layout.card_salidas,oVV);
                 recyclerView.setAdapter(oAda);
-                Toast.makeText(getContext(), "Sin Rutas", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });

@@ -1,6 +1,7 @@
 package com.vigitrackecuador.despachoflotavigitrack.Views;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class TarjetasActivity extends AppCompatActivity {
     int totalM=0;
     int totalS=0;
     int totalB=0;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -58,6 +60,10 @@ public class TarjetasActivity extends AppCompatActivity {
         recuperar_variable_ruta=getIntent().getStringExtra("ruta");
         idSalida=getIntent().getLongExtra("idruta",777777);
         consumirWebServicedespachoVueltas();
+        toolbar=findViewById(R.id.toolbar_tarjetas);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.developer));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tableLayout = findViewById(R.id.tablelayoutPDF);
         unidad_pdf=findViewById(R.id.unidad_pdf);
         salida_pdf=findViewById(R.id.salida_pdf);

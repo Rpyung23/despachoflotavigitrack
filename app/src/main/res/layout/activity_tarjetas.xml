@@ -7,7 +7,17 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
 tools:context=".Views.TarjetasActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_tarjetas"
+        android:background="@color/colorPrimaryDark"
+        android:textAlignment="center"
+        app:titleTextColor="@color/primaryText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </androidx.appcompat.widget.Toolbar>
 <androidx.cardview.widget.CardView
+    android:layout_marginTop="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
@@ -24,7 +34,7 @@ tools:context=".Views.TarjetasActivity">
                 android:id="@+id/unidad_pdf"
                 android:textStyle="bold"
                 android:textSize="22dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@color/colorPrimary"
                 android:textColor="@color/primaryText"
                 android:text="Unidad 000"
                 android:layout_width="match_parent"
@@ -33,7 +43,7 @@ tools:context=".Views.TarjetasActivity">
         </LinearLayout>
         <LinearLayout
             android:gravity="center"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

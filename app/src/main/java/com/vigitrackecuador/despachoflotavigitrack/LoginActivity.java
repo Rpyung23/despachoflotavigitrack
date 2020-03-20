@@ -1,15 +1,20 @@
 package com.vigitrackecuador.despachoflotavigitrack;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -42,13 +47,15 @@ public class LoginActivity extends AppCompatActivity
     JsonObjectRequest jsonObjectRequest;
     RequestQueue requestQueue;
     List<cDatosEmpresas> oE1;
-    Button ingresar,admin;
+    ProgressDialog progressDialogE;
+    Button ingresar,admin,btnConfig;
     ProgressDialog progressDialog;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     TextInputEditText textInputEditTextuser;
     TextInputEditText textInputEditTextpass;
     Spinner spinnerEmpresas;
+    TextView textViewEmpre;
     /*Array String con datos para spinner*/
     ArrayList<String>NombresEmpresas= new ArrayList<>();
     public  static  ArrayList<cIdBuses>oIdBuses;
@@ -62,6 +69,12 @@ public class LoginActivity extends AppCompatActivity
     public  static String pass_u;
     /************/
     String buscadorBD="S/N";
+    String UserLeer ;
+    String PassLeer;
+    String BDLeer;
+    String IpLeer;
+    String empresaSP;
+    Boolean banSharedP=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +84,8 @@ public class LoginActivity extends AppCompatActivity
         ingresar = findViewById(R.id.btn_ingresar);
         textInputEditTextpass = findViewById(R.id.txt_pass);
         textInputEditTextuser = findViewById(R.id.txt_user);
+        textViewEmpre =findViewById(R.id.TextempresaSP);
+        btnConfig=findViewById(R.id.btn_cofig);
         spinnerEmpresas = findViewById(R.id.spinner_empresas);
         admin = findViewById(R.id.btn_admin);
         NombresEmpresas.add("Seleccione una empresa");
@@ -78,16 +93,21 @@ public class LoginActivity extends AppCompatActivity
         ArrayAdapter<String> oEmpresas = new ArrayAdapter<String>(LoginActivity.this, R.layout.support_simple_spinner_dropdown_item,NombresEmpresas);
         oEmpresas.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerEmpresas.setAdapter(oEmpresas);
+        cargarsharedPreferendEMpre();
         spinnerEmpresas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                Toast.makeText(LoginActivity.this, "pos : "+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LoginActivity.this, "pos : "+position, Toast.LENGTH_SHORT).show();
                 if (position!=0)
                 {
                     buscadorBD=parent.getItemAtPosition(position).toString();
+                    textViewEmpre.setText(buscadorBD);
                     buscarDatosIngresoEmpresa();
-                }
+                }else
+                    {
+                        //Toast.makeText(LoginActivity.this, "Seleccione una Empresa", Toast.LENGTH_SHORT).show();
+                    }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -103,24 +123,60 @@ public class LoginActivity extends AppCompatActivity
                     Toast.makeText(LoginActivity.this, "Datos Vacios", Toast.LENGTH_SHORT).show();
                 }else
                     {
-                        /*Toast.makeText(LoginActivity.this, ""+user_u+"="+textInputEditTextuser.getText()+" "+pass_u+"="+textInputEditTextpass.getText(),
-                                Toast.LENGTH_LONG).show();*/
-                        if (user_u.equals(textInputEditTextuser.getText().toString()) & pass_u.equals(textInputEditTextpass.getText().toString()))
+                        if(banSharedP==true)
                         {
-                            /**Llamo al WEbservice*/
-                            //Toast.makeText(LoginActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
                             CargarWebService();
                         }else
                             {
-                                Toast.makeText(LoginActivity.this, "Datos Erroneos", Toast.LENGTH_SHORT).show();
+                                if (user_u.equals(textInputEditTextuser.getText().toString()) & pass_u.equals(textInputEditTextpass.getText().toString()))
+                                {
+                                    /**Llamo al WEbservice*/
+                                    //Toast.makeText(LoginActivity.this, "Bienvenido", Toast.LENGTH_SHORT).show();
+                                    CargarWebService();
+                                }else
+                                {
+                                    Toast.makeText(LoginActivity.this, "Datos Erroneos", Toast.LENGTH_SHORT).show();
+                                }
                             }
+
                     }
 
+            }
+        });
+        btnConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(LoginActivity.this);
+                builder.setMessage("Desea Habilitar el cambio de Empresa");
+                builder.setPositiveButton("Activar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        spinnerEmpresas.setEnabled(true);
+                        Toast.makeText(LoginActivity.this, "Operacion Exitosa", Toast.LENGTH_SHORT).show();
+                        textInputEditTextpass.setText("");
+                        textInputEditTextuser.setText("");
+                        ip="";
+                        name_base="";
+                        user_u="";
+                        pass_u="";
+
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Toast.makeText(LoginActivity.this, "Operacion Cancelada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.show();
             }
         });
     }
     private void CargarWebService()
     {
+        guardarPreferencia();
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setTitle("Vigitrack Cia.Ltd");
         progressDialog.setIcon(R.drawable.icono_vigitrack);
@@ -242,7 +298,13 @@ public class LoginActivity extends AppCompatActivity
                 }while (ban==false);
             }
     }
-    private void leerEmpresasFireBase() {
+    private void leerEmpresasFireBase()
+    {
+        progressDialogE=new ProgressDialog(LoginActivity.this);
+        progressDialogE.setTitle(R.string.developer);
+        progressDialogE.setIcon(getResources().getDrawable(R.drawable.icono_vigitrack));
+        progressDialogE.setMessage("Cargando Empresas .... ");
+        progressDialogE.setCancelable(false);
         oE1 = new ArrayList<cDatosEmpresas>();
         databaseReference.child("Empresas").addValueEventListener(new ValueEventListener() {
             @Override
@@ -286,4 +348,41 @@ public class LoginActivity extends AppCompatActivity
         });
 
     }
+    private void guardarPreferencia() {
+        SharedPreferences sharedPreferences = getSharedPreferences("EmpresaSeleccionada", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        //Toast.makeText(this, "GSP"+empresa+"-"+user_name_xml+"-"+pass_name_xml, Toast.LENGTH_LONG).show();
+        editor.putString("empresa",buscadorBD);
+        editor.putString("usuario", user_u);
+        editor.putString("pass", pass_u);
+        editor.putString("bd", name_base);
+        editor.putString("ip", ip);
+        editor.apply();
+    }
+    private void cargarsharedPreferendEMpre() {
+        SharedPreferences sharedPreferences = getSharedPreferences("EmpresaSeleccionada", Context.MODE_PRIVATE);
+        empresaSP= sharedPreferences.getString("empresa", "ErrorE");
+        UserLeer = sharedPreferences.getString("usuario", "ErrorU");
+        PassLeer = sharedPreferences.getString("pass", "ErrorP");
+        BDLeer=sharedPreferences.getString("bd", "ErrorB");
+        IpLeer=sharedPreferences.getString("ip", "ErrorI");
+        Toast.makeText(this, "GSP"+empresaSP+"-"+ UserLeer+"-"+PassLeer, Toast.LENGTH_LONG).show();
+        if (UserLeer.equals("ErrorU") || PassLeer.equals("ErrorP")|| BDLeer.equals("ErrorB")|| IpLeer.equals("ErrorI")||empresaSP.equals("ErrorE"))
+        {
+            //Toast.makeText(LoginActivity.this,"Error SP",Toast.LENGTH_SHORT);
+        } else
+            {
+                spinnerEmpresas.setEnabled(false);
+                textViewEmpre.setText(empresaSP);
+                textInputEditTextuser.setText(UserLeer);
+                buscadorBD=empresaSP;
+                textInputEditTextpass.setText(PassLeer);
+                ip=IpLeer;
+                user_u=UserLeer;
+                pass_u=PassLeer;
+                name_base=BDLeer;
+                banSharedP=true;
+        }
+    }
+
 }

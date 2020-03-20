@@ -44,7 +44,7 @@
                 </LinearLayout>
                 <TextView
                     android:textAlignment="center"
-                    android:id="@+id/empresaSP"
+                    android:id="@+id/TextempresaSP"
                     android:textSize="17dp"
                     android:text="Sin Empresa"
                     android:textColor="@color/colorPrimaryDark"

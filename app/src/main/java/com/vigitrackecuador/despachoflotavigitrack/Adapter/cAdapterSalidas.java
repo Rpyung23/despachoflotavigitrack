@@ -21,11 +21,12 @@ import com.vigitrackecuador.despachoflotavigitrack.R;
 
 import java.util.ArrayList;
 
-public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewHolderSalidas>
+public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewHolderSalidas> implements View.OnLongClickListener
 {
     private Activity activity;
     private int resource;
     private ArrayList<cVueltas>oVueltas;
+    private View.OnLongClickListener longClickListener;
     public cAdapterSalidas(Activity activity, int resource, ArrayList<cVueltas> oVueltas)
     {
         this.activity = activity;
@@ -38,6 +39,7 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
     public cViewHolderSalidas onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
         View view= LayoutInflater.from(parent.getContext()).inflate(resource,parent,false);
+        view.setOnLongClickListener(this);
         return new cViewHolderSalidas(view);
     }
 
@@ -67,20 +69,24 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
         holder.textViewHoraLSalida.setText(Llegada);
         String num_vuelta =" Vuelta # "+oO.getNum_vuelta();
         holder.textViewVueltaSalida.setText(num_vuelta);
-        holder.setItemLongClickListener(new longClickSalidas() {
-            @Override
-            public void onItemLongClick(View v, int pos)
-            {
-                Toast.makeText(activity, "idRuta : "+auxIdRuta, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
         return oVueltas.size();
     }
-    class cViewHolderSalidas extends RecyclerView.ViewHolder implements View.OnLongClickListener
+    public  void setLongClickListener(View.OnLongClickListener longClickListener){this.longClickListener=longClickListener;}
+    @Override
+    public boolean onLongClick(View v)
+    {
+        if(longClickListener!=null)
+        {
+            longClickListener.onLongClick(v);
+        }
+        return true;
+    }
+
+    class cViewHolderSalidas extends RecyclerView.ViewHolder
     {
         CardView cardView;
         LinearLayout linearLayout_card;
@@ -91,7 +97,6 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
         TextView textViewHoraLSalida;
         TextView textViewVueltaSalida;
         ImageView imageViewSalida;
-        longClickSalidas itemLongClickListener;
         public cViewHolderSalidas(@NonNull View itemView)
         {
             super(itemView);
@@ -104,16 +109,6 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
             imageViewSalida=itemView.findViewById(R.id.imagen_salida);
             cardView=itemView.findViewById(R.id.cardview_salida);
             linearLayout_card=itemView.findViewById(R.id.linear_card);
-            itemView.setOnLongClickListener(this);
-        }
-        public void setItemLongClickListener(longClickSalidas ic)
-        {
-            this.itemLongClickListener=ic;
-        }
-        @Override
-        public boolean onLongClick(View v) {
-            this.itemLongClickListener.onItemLongClick(v,getLayoutPosition());
-            return false;
         }
     }
 }
