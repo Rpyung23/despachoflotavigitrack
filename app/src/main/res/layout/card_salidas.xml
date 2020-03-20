@@ -15,18 +15,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
+        android:layout_gravity="center_vertical|center_horizontal"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
         <ImageView
+            android:scaleType="centerCrop"
             android:src="@drawable/baseline_departure_board_black_48"
-            android:layout_marginRight="5dp"
+            android:layout_margin="5dp"
             android:id="@+id/imagen_salida"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="@dimen/ancho_ico_bus_card"
+            android:layout_height="@dimen/alto_ico_bus_card">
         </ImageView>
         <LinearLayout
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical|center|center_horizontal"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

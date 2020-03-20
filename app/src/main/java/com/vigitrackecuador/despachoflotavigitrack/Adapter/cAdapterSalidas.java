@@ -48,19 +48,19 @@ public class cAdapterSalidas extends RecyclerView.Adapter<cAdapterSalidas.cViewH
         if (oO.getEstaSali_m()==0)
         {
             //holder.cardView.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_pendiente));
-            holder.linearLayout_card.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_pendiente));
+            holder.imageViewSalida.setImageDrawable(activity.getResources().getDrawable(R.drawable.blanco_bus));
         }else
             {
                 //holder.cardView.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_en_proceso));
-                holder.linearLayout_card.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_en_proceso));
+                holder.imageViewSalida.setImageDrawable(activity.getResources().getDrawable(R.drawable.bus_estado_uno));
             }
         String unidad =" [ "+oO.getId_bus()+" ] ";
         String id_ruta =" # "+oO.getId_ruta();
         final long auxIdRuta = oO.getId_ruta();
         holder.textViewUnidadSalida.setText(unidad);
         holder.textViewCodeSalida.setText(id_ruta);
-        String Salida="Salida : "+oO.getDate_salida().toString();
-        String Llegada="Llegada : "+oO.getDate_llegada().toString();
+        String Salida="Sali : "+oO.getDate_salida().toString();
+        String Llegada="Lleg : "+oO.getDate_llegada().toString();
         String LetraRuta ="Ruta : "+oO.getLetra_ruta();
         holder.textViewRutaSalida.setText(LetraRuta);
         holder.textViewHoraPSalida.setText(Salida);

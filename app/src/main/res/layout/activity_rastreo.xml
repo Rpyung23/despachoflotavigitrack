@@ -8,6 +8,8 @@
     android:layout_height="match_parent"
     tools:context=".Views.RastreoActivity">
     <androidx.appcompat.widget.Toolbar
+        android:textAlignment="center"
+        app:titleTextColor="@color/primaryText"
         android:id="@+id/toolbar_rastreo"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"

@@ -14,12 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.internal.maps.zzt;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -70,6 +72,7 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
         mapViewR=findViewById(R.id.mapview_rastreo);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(getResources().getString(R.string.developer));
         ArrayAdapter<cIdBuses>oAdap = new ArrayAdapter<cIdBuses>(RastreoActivity.this,R.layout.support_simple_spinner_dropdown_item,oIdBuses);
         spinnerU.setAdapter(oAdap);
         if (mapViewR!=null)
@@ -85,14 +88,15 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
             {
                 ValSpinnerU=parent.getItemAtPosition(position).toString();
                 cargarControles();
-                Toast.makeText(RastreoActivity.this, "op : "+ValSpinnerU, Toast.LENGTH_SHORT).show();
                 if (ValSpinnerU.equals("*"))
                 {
+                    Toast.makeText(RastreoActivity.this, "Rastreando todas las unidades", Toast.LENGTH_SHORT).show();
                     boolean ban=true;
                     /**Llaamar el JsonREquest**/
                     LlenarPosiciones(ValSpinnerU,ban);
                 }else
                     {
+                        Toast.makeText(RastreoActivity.this, "Rastreando  "+ValSpinnerU, Toast.LENGTH_SHORT).show();
                         LlenarPosiciones(ValSpinnerU,false);
                     }
             }
@@ -138,7 +142,6 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
                 url ="http://www.vigitrackecuador.com/ServiceDespacho/rastreo.php?namebd="+name_base+"&ipserver="+ip+
                         "&idbusObse="+valSpinnerU;
             }
-        Toast.makeText(this, "url : "+url, Toast.LENGTH_SHORT).show();
         jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response)
@@ -170,6 +173,7 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
                 //Toast.makeText(RastreoActivity.this, "Voller Error "+error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue = Volley.newRequestQueue(RastreoActivity.this);
         requestQueue.add(jsonArrayRequest);
     }
@@ -222,6 +226,8 @@ public class RastreoActivity extends AppCompatActivity implements OnMapReadyCall
         googleMapR=googleMap;
         googleMapR.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMapR.setTrafficEnabled(true);
+        LatLng oL = new LatLng(-1.831239 ,-78.183403);
+        googleMapR.animateCamera(CameraUpdateFactory.newLatLngZoom(oL, 6));
     }
     private void cargarControles()
     {

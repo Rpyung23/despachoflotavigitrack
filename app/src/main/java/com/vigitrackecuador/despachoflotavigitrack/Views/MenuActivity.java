@@ -119,7 +119,7 @@ public class MenuActivity extends AppCompatActivity
                         .addToBackStack(null).commit();
                         break;
                 }
-                return false;
+                return true;
             }
         });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -142,7 +142,7 @@ public class MenuActivity extends AppCompatActivity
                         break;
                 }
                 drawerLayout.closeDrawer(GravityCompat.START);
-                return false;
+                return true;
             }
         });
 

@@ -11,17 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:gravity="center_vertical"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/card_imagen"
+                android:layout_width="@dimen/ancho_ico_bus_card"
+                android:layout_height="@dimen/alto_ico_bus_card"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/baseline_directions_bus_black_48"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_margin="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bus_estado_uno">
             </ImageView>
             <LinearLayout
+                android:gravity="center|center_vertical"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -30,6 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/card_flotas"
                         android:layout_marginRight="5dp"
                         android:textColor="@color/secondText"
                         android:textSize="@dimen/text_size_card_salida"
@@ -39,6 +44,7 @@
                         android:layout_height="wrap_content">
                     </TextView>
                     <TextView
+                        android:id="@+id/card_fecha"
                         android:layout_marginRight="5dp"
                         android:textColor="@color/secondText"
                         android:textSize="@dimen/text_size_card_salida"
@@ -53,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:id="@+id/card_dispo"
                         android:layout_marginRight="5dp"
                         android:textStyle="bold|normal"
                         android:textColor="@color/secondText"
@@ -62,6 +69,7 @@
                         android:layout_height="wrap_content">
                     </TextView>
                     <TextView
+                        android:id="@+id/card_cel"
                         android:layout_marginRight="5dp"
                         android:textColor="@color/secondText"
                         android:textStyle="bold|normal"
@@ -71,6 +79,7 @@
                         android:layout_height="wrap_content">
                     </TextView>
                     <TextView
+                        android:id="@+id/card_reloj"
                         android:layout_marginRight="5dp"
                         android:textColor="@color/secondText"
                         android:textStyle="bold|normal"

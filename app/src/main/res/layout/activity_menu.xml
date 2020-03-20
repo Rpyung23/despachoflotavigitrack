@@ -25,7 +25,9 @@
             app:menu="@menu/menu_bottombar"
             android:background="#242424"
             app:itemBackground="@color/primaryText"
-            app:itemTextColor="@color/secondText"
+            android:fitsSystemWindows="true"
+            app:itemIconTint="@drawable/selector_bottombar_text"
+            app:itemTextColor="@drawable/selector_bottombar_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </com.google.android.material.bottomnavigation.BottomNavigationView>

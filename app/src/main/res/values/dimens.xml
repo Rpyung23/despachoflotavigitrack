@@ -14,4 +14,6 @@
     <dimen name="text_size_fecha">22dp</dimen>
     <dimen name="text_size_card_salida_sub">15dp</dimen>
     <dimen name="margen_Text_vueltas">5dp</dimen>
+    <dimen name="ancho_ico_bus_card">54dp</dimen>
+    <dimen name="alto_ico_bus_card">60dp</dimen>
 </resources>

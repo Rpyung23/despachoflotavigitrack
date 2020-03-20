@@ -10,6 +10,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -33,7 +34,6 @@ public class TarjetasActivity extends AppCompatActivity {
     cDespacho oD;
     JsonArrayRequest jsonArrayRequestDespachoVueltasPdf;
     RequestQueue requestQueueDespachoVueltasPdf;
-    String recuper_variable_url;
     String recupera_variable_unidad;
     String recuper_variable_salida;
     String recuperar_variable_ruta;
@@ -53,6 +53,9 @@ public class TarjetasActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tarjetas);
+        recupera_variable_unidad=getIntent().getStringExtra("unidad");
+        recuper_variable_salida=getIntent().getStringExtra("salida");
+        recuperar_variable_ruta=getIntent().getStringExtra("ruta");
         idSalida=getIntent().getLongExtra("idruta",777777);
         consumirWebServicedespachoVueltas();
         tableLayout = findViewById(R.id.tablelayoutPDF);
@@ -71,7 +74,7 @@ public class TarjetasActivity extends AppCompatActivity {
         progressDialog.setMessage("Generando ...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        String url_tarjetas="http://www.vigitrackecuador.com/ServiceDespacho/tarjeras.php?namebd="+name_base+"&ipserver="+ip+
+        String url_tarjetas="http://www.vigitrackecuador.com/ServiceDespacho/tarjetas.php?namebd="+name_base+"&ipserver="+ip+
             "&id_salida="+idSalida;
         jsonArrayRequestDespachoVueltasPdf = new JsonArrayRequest(url_tarjetas, new Response.Listener<JSONArray>() {
             @Override
@@ -192,6 +195,7 @@ public class TarjetasActivity extends AppCompatActivity {
                 Toast.makeText(TarjetasActivity.this, "ErrorListener : Servidor no responde", Toast.LENGTH_SHORT).show();
             }
         });
+        jsonArrayRequestDespachoVueltasPdf.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueueDespachoVueltasPdf= Volley.newRequestQueue(getApplicationContext());
         requestQueueDespachoVueltasPdf.add(jsonArrayRequestDespachoVueltasPdf);
 

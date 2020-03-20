@@ -51,22 +51,25 @@ public class cAdapterLlegadas extends RecyclerView.Adapter<cAdapterLlegadas.cVie
         cVueltas oO = new cVueltas();
          oO= oVueltas.get(position);
          final long auxId = oO.getId_ruta();
+         final String ruta=oO.getLetra_ruta();
+        final String salida=oO.getDate_salida();
+        final String unidad=oO.getId_bus();
         if (oO.getEstaSali_m()==0)
         {
             //holder.cardView.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_pendiente));
-            holder.linearLayout_card.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_pendiente));
+            holder.imageViewSalida.setImageDrawable(activity.getResources().getDrawable(R.drawable.blanco_bus));
         }else
             {
                 //holder.cardView.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_en_proceso));
-                holder.linearLayout_card.setBackgroundColor(activity.getResources().getColor(R.color.vuelta_en_proceso));
+                holder.imageViewSalida.setImageDrawable(activity.getResources().getDrawable(R.drawable.llegada));
             }
-        String unidad =" [ "+oO.getId_bus()+" ] ";
+        final String unidad2 =" [ "+oO.getId_bus()+" ] ";
         String id_ruta =" # "+oO.getId_ruta();
 
-        holder.textViewUnidadSalida.setText(unidad);
+        holder.textViewUnidadSalida.setText(unidad2);
         holder.textViewCodeSalida.setText(id_ruta);
-        String Salida="Salida : "+oO.getDate_salida().toString();
-        String Llegada="Llegada : "+oO.getDate_llegada().toString();
+        String Salida="Sali : "+oO.getDate_salida().toString();
+        String Llegada="Lleg : "+oO.getDate_llegada().toString();
         String LetraRuta ="Ruta : "+oO.getLetra_ruta();
         holder.textViewRutaSalida.setText(LetraRuta);
         holder.textViewHoraPSalida.setText(Salida);
@@ -79,6 +82,9 @@ public class cAdapterLlegadas extends RecyclerView.Adapter<cAdapterLlegadas.cVie
             {
                 Intent intent = new Intent(context, TarjetasActivity.class);
                 intent.putExtra("idruta",auxId );
+                intent.putExtra("unidad",unidad);
+                intent.putExtra("salida",salida);
+                intent.putExtra("ruta",ruta);
                 context.startActivity(intent);
             }
         });
